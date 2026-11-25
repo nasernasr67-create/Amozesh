@@ -1,0 +1,42 @@
+plugins {
+    id 'com.android.application' version '8.5.2'
+}
+
+android {
+    namespace 'ir.myschool.planner'
+    compileSdk 34
+
+    defaultConfig {
+        applicationId 'ir.myschool.planner'
+        minSdk 24
+        targetSdk 34
+        def run = (System.getenv('GITHUB_RUN_NUMBER') ?: '1') as Integer
+        versionCode run
+        versionName "1.${run}"
+    }
+
+    signingConfigs {
+        release {
+            storeFile file('release.keystore')
+            storePassword 'school123456'
+            keyAlias 'school'
+            keyPassword 'school123456'
+        }
+    }
+
+    buildTypes {
+        release {
+            signingConfig signingConfigs.release
+            minifyEnabled false
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    lint {
+        checkReleaseBuilds false
+    }
+}
